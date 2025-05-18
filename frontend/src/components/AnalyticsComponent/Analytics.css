@@ -1,0 +1,166 @@
+@charset "UTF-8";
+.analytics-page-wrapper {
+  background-color: #121212; /* Темный фон */
+  min-height: 100vh;
+  padding: 40px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.analytics-page {
+  max-width: 900px; /* Ширина блока как у профиля */
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+  color: #e0e7ff; /* Светлый текст */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+/* Заголовок */
+.analytics-header {
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+  color: #c5d0f8; /* Светлый цвет для заголовка */
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+  padding-top: 50px; /* Отступ сверху от Navbar */
+}
+
+/* Отступ сверху для календаря и статистики */
+.calendar-section, .stats-section, .graphs-section {
+  margin-top: 40px; /* Увеличенный отступ сверху */
+}
+
+/* Календарь */
+.calendar {
+  width: 100%; /* Теперь календарь растягивается на всю доступную ширину */
+  max-width: 100%; /* Убираем ограничение по ширине */
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+/* Статистические карточки */
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+.stats-section .stat-card {
+  background-color: #1e1e2f; /* Темный фиолетовый фон */
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.stats-section .stat-card .stat-label {
+  color: #a8b9db; /* Светлый цвет для текста */
+  font-size: 14px;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.stats-section .stat-card .stat-value {
+  font-size: 28px;
+  font-weight: 700;
+}
+.stats-section .stat-card .yellow {
+  color: #d7cb58; /* Желтая для подсветки */
+}
+.stats-section .stat-card .red {
+  color: #bd5959; /* Красная для подсветки */
+}
+.stats-section .full-width {
+  grid-column: span 1;
+}
+
+/* Графики энергии и настроения */
+.graphs-section {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+.graphs-section .graph-card {
+  background-color: #1e1e2f; /* Темный фиолетовый фон */
+  border-radius: 12px;
+  padding: 20px;
+  flex: 1 1 40%;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  min-width: 280px;
+}
+.graphs-section .graph-card h3 {
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #e0e7ff; /* Светлый цвет заголовков */
+}
+.graphs-section .energy-graph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.graphs-section .energy-graph .energy-bar {
+  display: flex;
+  align-items: flex-end;
+  height: 120px;
+  width: 100%;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.graphs-section .energy-graph .energy-bar .bar {
+  flex: 1;
+  background: linear-gradient(180deg, #d7cb58 0%, #a3b034 100%);
+  border-radius: 4px 4px 0 0;
+}
+.graphs-section .energy-graph .energy-scale {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.graphs-section .energy-graph .energy-scale .scale-number {
+  font-size: 11px;
+  color: #aac3ff; /* Цвет чисел на шкале */
+}
+.graphs-section .mood-tracker {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.graphs-section .mood-tracker .mood-bars {
+  display: flex;
+  align-items: flex-end;
+  height: 120px;
+  width: 100%;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.graphs-section .mood-tracker .mood-bars .mood-bar {
+  width: 15px;
+  border-radius: 4px 4px 0 0;
+}
+.graphs-section .mood-tracker .mood-bars .positive {
+  background-color: #a3b034; /* Положительное настроение */
+}
+.graphs-section .mood-tracker .mood-bars .negative {
+  background-color: #8046a4; /* Отрицательное настроение */
+}
+.graphs-section .mood-tracker .mood-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #aac3ff; /* Цвет меток на графике */
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}/*# sourceMappingURL=Analytics.css.map */

@@ -1,0 +1,75 @@
+@charset "UTF-8";
+/* Общий стиль для календаря */
+.calendar {
+  width: 100%;
+  max-width: 100%; /* Календарь теперь растягивается на всю ширину блока */
+  margin: 20px 0;
+  border: 1px solid #2c2c2c; /* Темная обводка */
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #1e1e2f; /* Тот же цвет фона, что и в других компонентах */
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #9b4d96; /* Темный фон для заголовка */
+  font-size: 16px;
+  color: #e0e7ff;
+}
+
+button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #e0e7ff;
+}
+
+button:hover {
+  color: #7d5f94; /* Сиреневый цвет при наведении */
+}
+
+.calendar-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background-color: #1e1e2f; /* Темный фон для дней недели */
+  padding: 10px 0 5px 0; /* Добавлен отступ сверху */
+  font-weight: bold;
+  color: #a8b9db; /* Цвет текста для дней недели */
+}
+
+.calendar-weekday {
+  text-align: center;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 10px;
+}
+
+.calendar-day {
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #e0e7ff;
+  border-radius: 4px; /* Закругление углов */
+}
+
+.calendar-day.empty {
+  background-color: #1e1e2f; /* Пустые ячейки календаря будут скрыты */
+}
+
+.calendar-day:hover {
+  background-color: #9b4d96; /* Сиреневое свечение при наведении */
+  border-radius: 6px; /* Прямоугольник с небольшим закруглением */
+}/*# sourceMappingURL=Calendar.css.map */
