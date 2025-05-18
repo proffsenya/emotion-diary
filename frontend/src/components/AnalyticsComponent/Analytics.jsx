@@ -150,6 +150,24 @@ export default function Analytics() {
             </ResponsiveContainer>
           </div>
 
+          {/* График "Эмоции по времени суток" */}
+          <div className="graph-card time-of-day">
+            <h3>Эмоции по времени суток</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={emotionTimeOfDay}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="Грусть" stackId="a" fill="#64B5F6" />
+                <Bar dataKey="Радость" stackId="a" fill="#FFD54F" />
+                <Bar dataKey="Гнев" stackId="a" fill="#E57373" />
+                <Bar dataKey="Нейтральное" stackId="a" fill="#81C784" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
           
         </section>
       </div>
