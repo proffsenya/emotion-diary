@@ -182,6 +182,23 @@ export default function Analytics() {
             </ResponsiveContainer>
           </div>
 
+          {/* График "Трекер настроения" */}
+          <div className="graph-card mood-tracker">
+            <h3>Трекер настроения</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={moodData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="time" />
+                <YAxis />
+                <Tooltip />
+                <Line type="monotone" dataKey="радость" stroke="#FFD54F" />
+                <Line type="monotone" dataKey="грусть" stroke="#64B5F6" />
+                <Line type="monotone" dataKey="гнев" stroke="#E57373" />
+                <Line type="monotone" dataKey="нейтральное" stroke="#81C784" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+
           
         </section>
       </div>
