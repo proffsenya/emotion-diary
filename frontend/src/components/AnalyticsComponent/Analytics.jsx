@@ -199,7 +199,23 @@ export default function Analytics() {
             </ResponsiveContainer>
           </div>
 
-          
+          {/* Эмоциональная статистика по категориям */}
+          <div className="graph-card emotion-categories">
+            <h3>Эмоциональная статистика по категориям</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={[stats.emotionCategories]}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="радость" fill="#FFD54F" />
+                <Bar dataKey="грусть" fill="#64B5F6" />
+                <Bar dataKey="гнев" fill="#E57373" />
+                <Bar dataKey="нейтральные" fill="#81C784" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </section>
       </div>
     </div>
