@@ -161,3 +161,157 @@ function getSectorPosition(index, sector) {
   return { baseX, baseY };
 }
 
+export default function EmotionMap() {
+  const [dragging, setDragging] = useState(false);
+  const [origin, setOrigin] = useState({ x: 0, y: 0 });
+  const [translate, setTranslate] = useState({ x: 0, y: 0 });
+  const [selectedEmotion, setSelectedEmotion] = useState(null); // для модального окна
+  const [comment, setComment] = useState(""); // Стейт для комментария
+  const [intensity, setIntensity] = useState(5); // Стейт для интенсивности
+
+  // Открытие модального окна
+  const handleEmotionClick = (emotion) => {
+    setSelectedEmotion(emotion);
+  };
+
+  // Закрытие модального окна
+  const handleCloseModal = () => {
+    setSelectedEmotion(null);
+    setComment(""); // Очистить комментарий после закрытия
+    setIntensity(5); // Очистить интенсивность
+  };
+
+  // Генерация border-radius для каждой эмоции
+  const [borderRadiusMap] = useState(() => {
+    const map = {};
+    emotions.forEach((em) => {
+      map[em.id] = Math.floor(Math.random() * 50) + "% " + Math.floor(Math.random() * 50) + "% " + Math.floor(Math.random() * 50) + "% " + Math.floor(Math.random() * 50) + "%";
+    });
+    return map;
+  });
+
+  // Группируем эмоции по типам
+  const grouped = ["joy", "sadness", "anger", "neutral"].reduce((acc, type) => {
+    acc[type] = emotions.filter((e) => e.type === type);
+    return acc;
+  }, {});
+
+  useEffect(() => {
+    setTranslate({ x: -640, y: -750 });
+  }, []);
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        backgroundColor: "#121212", // Темный фон
+        position: "absolute",
+        overflow: "hidden",
+        userSelect: "none",
+        border: "1px solid #204080",
+      }}
+      onMouseDown={(e) => {
+        if (selectedEmotion) return; // Если модальное окно открыто, не разрешаем перетаскивание
+        e.preventDefault();
+        setDragging(true);
+        setOrigin({ x: e.clientX - translate.x, y: e.clientY - translate.y });
+      }}
+      onMouseMove={(e) => {
+        if (!dragging || selectedEmotion) return; // Если модальное окно открыто, не разрешаем перетаскивание
+        const x = e.clientX - origin.x;
+        const y = e.clientY - origin.y;
+        setTranslate({ x, y });
+      }}
+      onMouseUp={() => setDragging(false)}
+      onMouseLeave={() => setDragging(false)}
+    >
+      {/* Основная карта */}
+      <div
+        style={{
+          width: FIXED_MAP_WIDTH,
+          height: FIXED_MAP_HEIGHT,
+          position: "absolute",
+          top: 0,
+          left: 0,
+          transform: `translate(${translate.x}px, ${translate.y}px)`,
+          transition: dragging ? "none" : "transform 0.3s ease-out",
+          userSelect: "none",
+        }}
+      >
+        {/* Карта Эмоций */}
+        {Object.keys(grouped).map((type) =>
+          grouped[type].map((emotion, index) => {
+            const { baseX, baseY } = getSectorPosition(index, SECTORS[type]);
+
+            return (
+              <div
+                key={emotion.id}
+                style={{
+                  position: "absolute",
+                  top: baseY,
+                  left: baseX,
+                  width: 150,
+                  height: 150,
+                  backgroundColor: emotion.color,
+                  color: "#222",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontWeight: "600",
+                  cursor: "grab",
+                  userSelect: "none",
+                  borderRadius: borderRadiusMap[emotion.id],
+                  boxShadow: "0 4px 10px rgba(0,0,0,0.5)",
+                  padding: 10,
+                  textAlign: "center",
+                  fontSize: 14,
+                  lineHeight: 1.2,
+                  transition: "background-color 0.3s ease, transform 0.3s ease",
+                }}
+                onClick={() => handleEmotionClick(emotion)} // Открытие модального окна при клике
+                onMouseOver={(e) => {
+                  e.currentTarget.style.transform = "scale(1.1)";
+                  e.currentTarget.style.backgroundColor = "#9b4d96"; // Сиреневый цвет при наведении
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.backgroundColor = emotion.color; // Вернуть оригинальный цвет
+                }}
+              >
+                {emotion.name}
+              </div>
+            );
+          })
+        )}
+      </div>
+
+      {/* Добавлен полупрозрачный фон только для модального окна */}
+      {selectedEmotion && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // Полупрозрачный фон
+            zIndex: 999, // Это фон будет ниже модального окна
+          }}
+        />
+      )}
+
+      {/* Модальное окно для отображения информации о выбранной эмоции */}
+      {selectedEmotion && (
+        <EmotionSelectionComponent
+          emotion={selectedEmotion}
+          comment={comment}
+          setComment={setComment}
+          intensity={intensity}
+          setIntensity={setIntensity}
+          onClose={handleCloseModal}
+        />
+      )}
+    </div>
+  );
+}
