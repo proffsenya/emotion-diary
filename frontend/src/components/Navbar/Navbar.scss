@@ -1,0 +1,30 @@
+/* Общие стили для кнопок */
+.MuiButton-root {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Стили для активной кнопки */
+.MuiButton-root.active {
+  background-color: #9b4d96; /* Розовый фон */
+  box-shadow: 0 0 8px #9b4d96; /* Розовое свечение */
+  color: #fff;
+}
+
+/* Стиль при наведении на неактивную ссылку */
+.MuiButton-root:hover {
+  background-color: #7d5f94; /* Сиреневый при наведении */
+}
+
+/* Иконки и текст */
+.MuiButton-root svg {
+  margin-right: 8px;
+}
+
+.MuiButton-root span {
+  font-weight: 600;
+}
