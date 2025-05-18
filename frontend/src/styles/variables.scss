@@ -1,0 +1,16 @@
+// variables.scss
+
+// Цвета для темной и сиреневой гаммы
+$background-dark: #0a0a0a;   // Очень темный фон (почти черный)
+$primary-dark: #1b1b1b;      // Темный фон для элементов (темный серый)
+$highlight-dark: #2a2a2a;    // Еще более темный фон для выделенных элементов
+$highlight-color: #9b4d96;   // Сиреневый цвет для акцентов и кнопок
+$white: #ffffff;             // Белый цвет для текста
+$light-gray: #cccccc;        // Светлый серый для фонов и теней
+$success-color: #4caf50;     // Зеленый для успешных действий
+$warning-color: #ff9800;     // Оранжевый для предупреждений
+$error-color: #f44336;       // Красный цвет для ошибок
+$font-primary: 'Arial', sans-serif;   // Шрифт для текста
+$font-secondary: 'Roboto', sans-serif;
+$card-radius: 8px;  // Радиус скругления для карточек
+$padding: 16px;     // Паддинги для элементов

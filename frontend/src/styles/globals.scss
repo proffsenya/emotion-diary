@@ -1,0 +1,115 @@
+// globals.scss
+
+body {
+  background-color: $background-dark; // Очень темный фон для всего тела
+  color: $white;                       // Белый текст
+  font-family: $font-primary;           // Шрифт
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+.card {
+  background-color: $primary-dark;  // Темный фон для карточек
+  border-radius: $card-radius;
+  padding: $padding;
+  margin: $padding 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);  // Тень для карточек
+}
+
+.card-header {
+  color: $highlight-color;
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body h3 {
+  margin: 0;
+  font-size: 2rem;
+  color: $white;
+}
+
+.card-body p {
+  font-size: 1rem;
+  color: $light-gray;
+  opacity: 0.8;
+}
+
+// Кнопки
+.button {
+  background-color: $highlight-color;
+  color: $white;
+  padding: 10px 20px;
+  border-radius: $card-radius;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: none; // Убираем бордер
+  font-weight: 600;
+}
+
+.button:hover {
+  background-color: $success-color;  // Изменение цвета на зеленый при наведении
+}
+
+.button:focus {
+  outline: none; // Убираем обводку на кнопке при фокусе
+}
+
+// Ссылки
+
+// Графики и визуализация
+.graph {
+  width: 100%;
+  height: 250px;
+  margin-top: 20px;
+  background-color: $primary-dark;
+}
+
+// Подписки
+.subscriptions {
+  background-color: $highlight-dark;
+  border-radius: $card-radius;
+  padding: $padding;
+  margin-top: 20px;
+}
+
+.subscription-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.subscription-item p {
+  color: $white;
+  font-size: 1rem;
+}
+
+.subscription-item .status {
+  color: $highlight-color;  // Статус подписки
+  font-weight: bold;
+}
+
+.subscription-item .price {
+  font-size: 1.1rem;
+  color: $white;
+}
+
+// Всплывающие окна и модальные окна
+.modal {
+  background-color: $primary-dark;
+  color: $white;
+  border-radius: $card-radius;
+  padding: $padding;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+}
