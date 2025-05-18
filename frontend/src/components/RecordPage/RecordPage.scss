@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  padding: 0; /* если нужно */
+}
+
+.record-page {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.record-content {
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden;
+  background-color: #0b1d51;
+}
