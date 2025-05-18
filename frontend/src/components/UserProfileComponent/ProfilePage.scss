@@ -1,0 +1,164 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #121212; /* Темный фон */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #e0e7ff;
+}
+
+.profile-page {
+  background-color: #121212; /* Темный фон */
+  padding-top: 60px; /* Отступ сверху для фиксированного меню */
+  height: 100vh;
+}
+
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Выравнивание по верхнему краю */
+  height: 100vh;
+  padding: 20px;
+  background-color: #121212; /* Темный фон */
+}
+
+.profile-box {
+  background: #1e1e2f; /* Темный фиолетовый фон */
+  padding: 40px 50px;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+  max-width: 700px; /* Сделал форму шире */
+  width: 100%;
+  color: #e0e7ff;
+  margin-top: 50px; /* Сделано отступ между верхней частью экрана и формой */
+}
+
+.profile-box h2 {
+  margin-bottom: 30px;
+  color: #c5d0f8; /* Светлый текст заголовка */
+  font-weight: 700;
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: 30px; /* Увеличено расстояние между инпутами */
+  display: block; /* Убираем flexbox для выравнивания по бокам */
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #a8b9db;
+}
+
+.input-group input {
+  width: 80%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: #2b2d3d;
+  color: #e0e7ff;
+  font-size: 16px;
+  box-sizing: border-box;
+  border: 1px solid #9b4d96;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-group input::placeholder {
+  color: #7791c9;
+}
+
+.input-group input:focus {
+  outline: none;
+  background: #37415c;
+  box-shadow: 0 0 8px #7d5f94; /* Стандартное свечение при фокусе */
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px; /* Увеличен отступ между инпутом и кнопкой */
+}
+
+.chgbtn {
+margin-right: 0;
+  margin-left:  30px;
+  padding: 8px 14px;
+  background: #9b4d96; /* Сиреневый цвет */
+  border: none;
+  border-radius: 8px;
+  color: #f0f6ff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.chgbtn:hover {
+  background: #704f7b; /* Темный сиреневый при наведении */
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: #9b4d96;
+  color: #f0f6ff;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  font-size: 16px;
+  box-shadow: 0 0 8px #7d5f94; /* Стандартное свечение кнопки */
+}
+
+.submit-btn:hover {
+  background-color: #7d5f94; /* Темный сиреневый при наведении */
+  box-shadow: 0 0 12px #7d5f94; /* Усиленное свечение при наведении */
+}
+
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #2c2c2c;
+  border-radius: 12px;
+  padding: 40px;
+  margin-bottom: 40px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  width: 250px;
+  margin-bottom: 30px; /* Сделал отступ между аватаром и формой */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.avatar-section:hover {
+  transform: scale(1.05);
+}
+
+.avatar-placeholder {
+  width: 150px;
+  height: 150px;
+  background-color: #9b4d96; /* Сиреневый цвет */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+.avatar-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatar-instruction {
+  color: #ccc;
+  font-size: 16px;
+  margin-top: 10px;
+}
