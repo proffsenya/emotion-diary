@@ -168,6 +168,20 @@ export default function Analytics() {
             </ResponsiveContainer>
           </div>
 
+          {/* График "Энергия" */}
+          <div className="graph-card energy-graph">
+            <h3>Энергия</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={energyData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="day" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="count" fill="#FFD54F" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
           
         </section>
       </div>
