@@ -1,44 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './Calendar.scss';
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [emotionDays, setEmotionDays] = useState([]);
 
-  // Дни недели
   const weekdays = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
 
-  // Пример данных о эмоциях
-  const emotionsData = [
-    { day: 1, emotions: [{ name: "Радость", color: "#FFD54F", intensity: 8 }, { name: "Грусть", color: "#64B5F6", intensity: 3 }] },
-    { day: 2, emotions: [{ name: "Грусть", color: "#64B5F6", intensity: 7 }] },
-    { day: 3, emotions: [{ name: "Радость", color: "#FFD54F", intensity: 9 }] },
-    { day: 5, emotions: [{ name: "Гнев", color: "#F44336", intensity: 6 }] },
-    { day: 7, emotions: [{ name: "Нейтральное", color: "#81C784", intensity: 5 }] },
-    // и так далее...
-  ];
-
-  // Функция для изменения месяца
+  // Функция для смены месяца
   const changeMonth = (direction) => {
     const newDate = new Date(currentDate);
     newDate.setMonth(currentDate.getMonth() + direction);
     setCurrentDate(newDate);
   };
 
-  // Функция для получения дней в месяце
+  // Получить дни в месяце
   const getDaysInMonth = () => {
     const daysInMonth = [];
     const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
     const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
 
-    // Дни недели до начала месяца
     const startDay = firstDayOfMonth.getDay();
 
-    // Добавление пустых дней перед началом месяца
     for (let i = 0; i < startDay; i++) {
       daysInMonth.push(null);
     }
 
-    // Добавление дней месяца
     for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
       daysInMonth.push(i);
     }
@@ -46,11 +33,39 @@ const Calendar = () => {
     return daysInMonth;
   };
 
-  // Функция для получения эмоций для конкретного дня
-  const getEmotionsForDay = (day) => {
-    const dayEmotions = emotionsData.find(item => item.day === day);
-    return dayEmotions ? dayEmotions.emotions : [];
+  // Получить цвет для дня, если он есть в данных с бэка
+  const getColorForDay = (day) => {
+    const dayData = emotionDays.find(item => item.day === day);
+    return dayData ? dayData.color : null;
   };
+
+  // Загрузка дней с эмоциями с backend
+  useEffect(() => {
+    const fetchEmotionDays = async () => {
+      const token = localStorage.getItem('access_token');
+      if (!token) return;
+
+      try {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1; // JS month с 0, API с 1
+
+        const response = await fetch(`http://localhost:8000/emotion_days?year=${year}&month=${month}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (!response.ok) {
+          throw new Error('Ошибка загрузки данных эмоций');
+        }
+
+        const data = await response.json();
+        setEmotionDays(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchEmotionDays();
+  }, [currentDate]);
 
   const days = getDaysInMonth();
 
@@ -69,16 +84,15 @@ const Calendar = () => {
         </div>
         <div className="calendar-days">
           {days.map((day, index) => {
-            const emotionsForDay = getEmotionsForDay(day);
-
-            // Применение стилей для дней с эмоциями
-            const dayStyles = emotionsForDay.length
-              ? { background: `linear-gradient(90deg, ${emotionsForDay.map(emotion => emotion.color).join(', ')})` }
-              : {};
-
+            const color = day ? getColorForDay(day) : null;
+            const dayStyle = color ? { backgroundColor: color } : {};
             return (
-              <div key={index} className={`calendar-day ${day ? '' : 'empty'}`} style={day ? dayStyles : {}}>
-                {day || ''}
+              <div
+                key={index}
+                className={`calendar-day ${day ? "" : "empty"}`}
+                style={dayStyle}
+              >
+                {day || ""}
               </div>
             );
           })}

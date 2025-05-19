@@ -27,7 +27,7 @@
   color: #c5d0f8; /* Светлый цвет для заголовка */
   margin-bottom: 40px;
   letter-spacing: 1px;
-  padding-top: 50px; /* Отступ сверху от Navbar */
+  padding-top: 60px; /* Отступ сверху от Navbar */
 }
 
 /* Отступ сверху для календаря и статистики */
