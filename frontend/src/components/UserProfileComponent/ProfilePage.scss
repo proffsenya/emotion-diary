@@ -77,13 +77,13 @@ html, body, #root {
 
 .button-group {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between; /* Размещение кнопок с промежутком */
   margin-top: 10px; /* Увеличен отступ между инпутом и кнопкой */
 }
 
 .chgbtn {
-margin-right: 0;
-  margin-left:  30px;
+  margin-right: 0;
+  margin-left: 30px;
   padding: 8px 14px;
   background: #9b4d96; /* Сиреневый цвет */
   border: none;
@@ -111,11 +111,31 @@ margin-right: 0;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   font-size: 16px;
   box-shadow: 0 0 8px #7d5f94; /* Стандартное свечение кнопки */
+  margin-bottom: 20px; /* Отступ для кнопки */
 }
 
 .submit-btn:hover {
   background-color: #7d5f94; /* Темный сиреневый при наведении */
   box-shadow: 0 0 12px #7d5f94; /* Усиленное свечение при наведении */
+}
+
+.logout-btn {
+  padding: 14px;
+  background: #f44336;
+  color: #f0f6ff;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  font-size: 16px;
+  box-shadow: 0 0 8px #d32f2f;
+  width: 48%; /* Кнопка "Выйти" теперь шириной 48% */
+}
+
+.logout-btn:hover {
+  background-color: #c62828; /* Темный красный при наведении */
+  box-shadow: 0 0 12px #c62828;
 }
 
 .avatar-section {
@@ -161,4 +181,15 @@ margin-right: 0;
   color: #ccc;
   font-size: 16px;
   margin-top: 10px;
+}
+
+.input-error {
+  border: 2px solid #e57373 !important; /* Красная рамка */
+}
+
+.error-message {
+  color: #e57373;
+  font-size: 12px;
+  margin-top: 3px;
+  user-select: none;
 }
