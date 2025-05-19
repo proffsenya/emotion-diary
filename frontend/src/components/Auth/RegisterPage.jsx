@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
 
 const RegisterPage = () => {
   const [username, setUsername] = useState("");
@@ -9,21 +8,66 @@ const RegisterPage = () => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [birthDate, setBirthDate] = useState("");
-  const [error, setError] = useState(null);
-  const { register } = useAuth();
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (password !== confirm) {
-      setError("Пароли не совпадают");
-      return;
+  const validate = () => {
+    const newErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\+?\d{7,15}$/; // пример простого паттерна для телефона
+
+    if (!email.trim()) {
+      newErrors.email = "Почта обязательна";
+    } else if (!emailRegex.test(email)) {
+      newErrors.email = "Неверный формат почты";
     }
-    const success = register(username, password, email, phone, birthDate);
-    if (success) {
-      navigate("/login");
-    } else {
-      setError("Ошибка регистрации");
+
+    if (!phone.trim()) {
+      newErrors.phone = "Номер телефона обязателен";
+    } else if (!phoneRegex.test(phone)) {
+      newErrors.phone = "Неверный формат телефона";
+    }
+
+    if (!birthDate) {
+      newErrors.birthDate = "Дата рождения обязательна";
+    }
+
+    if (!password) {
+      newErrors.password = "Пароль обязателен";
+    } else if (password.length < 6) {
+      newErrors.password = "Пароль должен быть не менее 6 символов";
+    }
+
+    if (password !== confirm) {
+      newErrors.confirm = "Пароли не совпадают";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    try {
+      const response = await fetch("http://localhost:8000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, phone, birthDate }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        navigate("/login");
+      } else {
+        setErrors({ form: data.detail || "Ошибка регистрации" });
+      }
+    } catch {
+      setErrors({ form: "Ошибка подключения к серверу" });
     }
   };
 
@@ -36,7 +80,6 @@ const RegisterPage = () => {
           padding: 0;
           background-color: #121212;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          color: #e0e7ff;
         }
         .page-container {
           display: flex;
@@ -70,14 +113,15 @@ const RegisterPage = () => {
         input {
           width: 100%;
           padding: 12px 15px;
-          margin-bottom: 25px;
+          margin-bottom: 5px;
           border: none;
           border-radius: 10px;
           background: #2b2d3d;
           color: #e0e7ff;
           font-size: 16px;
           box-sizing: border-box;
-          transition: background 0.3s ease;
+          transition: background 0.3s ease, border-color 0.3s ease;
+          border: 2px solid transparent;
         }
         input::placeholder {
           color: #7791c9;
@@ -86,6 +130,16 @@ const RegisterPage = () => {
           outline: none;
           background: #37415c;
           box-shadow: 0 0 8px #7d5f94;
+        }
+        input.error {
+          border-color: #ff7373;
+          background: #3b2b2b;
+        }
+        .error-message {
+          color: #ff7373;
+          margin-bottom: 15px;
+          font-weight: 600;
+          font-size: 13px;
         }
         button {
           width: 100%;
@@ -97,17 +151,10 @@ const RegisterPage = () => {
           font-size: 18px;
           font-weight: 700;
           cursor: pointer;
-          box-shadow: 0 4px 12px #7f4f7d;
-          transition: background 0.3s ease;
+          margin-top: 15px;
         }
         button:hover {
           background: #7d5f94;
-        }
-        .error-message {
-          color: #ff7373;
-          margin-bottom: 20px;
-          text-align: center;
-          font-weight: 600;
         }
         .login-link {
           text-align: center;
@@ -118,7 +165,6 @@ const RegisterPage = () => {
         .login-link a {
           color: #7da3ff;
           text-decoration: none;
-          font-weight: 700;
         }
         .login-link a:hover {
           text-decoration: underline;
@@ -137,8 +183,10 @@ const RegisterPage = () => {
               placeholder="Введите почту"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className={errors.email ? "error" : ""}
               required
             />
+            {errors.email && <p className="error-message">{errors.email}</p>}
 
             <label htmlFor="phone">Номер телефона:</label>
             <input
@@ -147,8 +195,10 @@ const RegisterPage = () => {
               placeholder="Введите номер телефона"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
+              className={errors.phone ? "error" : ""}
               required
             />
+            {errors.phone && <p className="error-message">{errors.phone}</p>}
 
             <label htmlFor="birthDate">Дата рождения:</label>
             <input
@@ -156,8 +206,10 @@ const RegisterPage = () => {
               type="date"
               value={birthDate}
               onChange={(e) => setBirthDate(e.target.value)}
+              className={errors.birthDate ? "error" : ""}
               required
             />
+            {errors.birthDate && <p className="error-message">{errors.birthDate}</p>}
 
             <label htmlFor="password">Пароль:</label>
             <input
@@ -166,8 +218,10 @@ const RegisterPage = () => {
               placeholder="Введите пароль"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className={errors.password ? "error" : ""}
               required
             />
+            {errors.password && <p className="error-message">{errors.password}</p>}
 
             <label htmlFor="confirm">Повторите пароль:</label>
             <input
@@ -176,10 +230,12 @@ const RegisterPage = () => {
               placeholder="Повторите пароль"
               value={confirm}
               onChange={(e) => setConfirm(e.target.value)}
+              className={errors.confirm ? "error" : ""}
               required
             />
+            {errors.confirm && <p className="error-message">{errors.confirm}</p>}
 
-            {error && <p className="error-message">{error}</p>}
+            {errors.form && <p className="error-message">{errors.form}</p>}
 
             <button type="submit">Зарегистрироваться</button>
           </form>
