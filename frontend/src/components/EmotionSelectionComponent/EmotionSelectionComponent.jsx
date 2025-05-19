@@ -1,10 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 
 const EmotionSelectionComponent = ({ emotion, comment, setComment, intensity, setIntensity, onClose }) => {
-  const handleSave = () => {
-    alert(`Комментарий для эмоции "${emotion.name}": ${comment}\nИнтенсивность: ${intensity}`);
-    onClose(); // Закрытие модала
-  };
+  const [errors, setErrors] = useState({});
+
+  async function handleSave() {
+    const newErrors = {};
+    if (!comment.trim()) {
+      newErrors.comment = "Комментарий не может быть пустым";
+    }
+    const intensityValue = Number(intensity);
+    if (!intensityValue || intensityValue < 1 || intensityValue > 10) {
+      newErrors.intensity = "Интенсивность должна быть от 1 до 10";
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return; // Есть ошибки — не отправляем запрос
+    }
+
+    try {
+      const token = localStorage.getItem('access_token');
+      if (!token) {
+        alert("Пожалуйста, войдите в систему");
+        return;
+      }
+
+      const requestData = {
+        emotion_type: emotion.type,
+        name: emotion.name,
+        intensity: intensityValue,
+        comment: comment.trim(),
+      };
+
+      const response = await fetch('http://localhost:8000/add_emotion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Эмоция успешно сохранена!");
+        onClose();
+      } else {
+        alert(`Ошибка: ${data.detail || "Не удалось сохранить эмоцию"}`);
+      }
+    } catch (error) {
+      alert("Ошибка при сохранении эмоции.");
+    }
+  }
 
   return (
     <div style={modalStyles}>
@@ -15,14 +64,17 @@ const EmotionSelectionComponent = ({ emotion, comment, setComment, intensity, se
       <div style={labelStyles}>Комментарий</div>
       <textarea
         id="comment"
-        value={comment} // Используем переданный комментарий
-        onChange={(e) => setComment(e.target.value)} // Обновляем комментарий
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
         placeholder="Опишите то, что вы чувствуете"
-        style={inputStyles}
-        autoFocus // Добавлено для фокуса на поле ввода
+        style={{ 
+          ...inputStyles, 
+          borderColor: errors.comment ? "#ff7373" : inputStyles.borderColor 
+        }}
+        autoFocus
       />
+      {errors.comment && <div style={{ color: "#ff7373", marginBottom: "10px", textAlign: "left" }}>{errors.comment}</div>}
 
-      {/* Интенсивность эмоции */}
       <div style={labelStyles}>Интенсивность</div>
       <input
         type="range"
@@ -30,9 +82,14 @@ const EmotionSelectionComponent = ({ emotion, comment, setComment, intensity, se
         max="10"
         value={intensity}
         onChange={(e) => setIntensity(e.target.value)}
-        style={rangeInputStyles}
+        style={{
+          ...rangeInputStyles,
+          outlineColor: errors.intensity ? "#ff7373" : "none",
+          boxShadow: errors.intensity ? "0 0 6px #ff7373" : "none"
+        }}
       />
       <div style={rangeValueStyles}>{intensity}</div>
+      {errors.intensity && <div style={{ color: "#ff7373", marginBottom: "10px", textAlign: "left" }}>{errors.intensity}</div>}
 
       <button style={saveButtonStyles} onClick={handleSave}>
         Сохранить
@@ -45,6 +102,7 @@ const EmotionSelectionComponent = ({ emotion, comment, setComment, intensity, se
   );
 };
 
+// -- стили оставляем без изменений --
 const modalStyles = {
   position: "fixed",
   top: "50%",
@@ -58,7 +116,7 @@ const modalStyles = {
   maxWidth: "500px",
   color: "#e0e7ff",
   textAlign: "center",
-  zIndex: 1000, // Убедитесь, что модальное окно на переднем плане
+  zIndex: 1000,
 };
 
 const emotionBoxStyles = {
@@ -95,9 +153,9 @@ const inputStyles = {
   fontSize: "16px",
   border: "1px solid #9b4d96",
   outline: "none",
-  resize: "none", // Отключаем изменение размера
+  resize: "none",
   transition: "background 0.3s ease, border-color 0.3s ease",
-  boxSizing: "border-box", // Добавляем для корректных отступов
+  boxSizing: "border-box",
 };
 
 const rangeInputStyles = {
@@ -128,9 +186,8 @@ const saveButtonStyles = {
   cursor: "pointer",
   boxShadow: "0 4px 12px #7f4f7d",
   transition: "background 0.3s ease, box-shadow 0.3s ease",
-  marginTop: "60px", // Добавлен отступ сверху
+  marginTop: "60px",
 };
-
 
 const closeButtonStyles = {
   width: "100%",
